@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amazon Product Lab</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">APL</span>
+      <div>
+        <strong>Amazon Product Lab</strong>
+        <span>美国站商机初筛工作台</span>
+      </div>
+    </div>
+    <div class="local-badge"><span></span>数据仅在本机处理</div>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">OPPORTUNITY EXPLORER</p>
+        <h1 id="page-title">从后台导出，到可复盘的候选清单</h1>
+        <p class="lede">上传商机探测器 CSV，先完成需求侧排序与风险复核提示。利润、合规和采购结论仍需补齐真实数据。</p>
+      </div>
+      <button id="choose-file-button" class="upload-button" type="button">
+        <span>选择 CSV 文件</span>
+        <small>或拖放到下方区域</small>
+      </button>
+      <input id="file-input" type="file" accept=".csv,text/csv" hidden>
+    </section>
+
+    <section id="drop-zone" class="drop-zone" aria-label="CSV 文件上传区">
+      <div class="drop-icon" aria-hidden="true">↑</div>
+      <div>
+        <strong id="drop-title">拖入商机探测器导出的 CSV</strong>
+        <p id="drop-hint">支持中文表头，最大 25 MB。文件不会离开你的电脑。</p>
+      </div>
+      <span class="text-note">原始数据不会上传到网络</span>
+    </section>
+
+    <section id="status" class="status" hidden aria-live="polite"></section>
+
+    <div id="workspace" hidden>
+      <section class="summary" aria-label="分析概览">
+        <article><span>市场总数</span><strong id="metric-total">0</strong><small>本次导出</small></article>
+        <article><span>目标价格带</span><strong id="metric-price">0</strong><small>$20–$50</small></article>
+        <article><span>正向增长</span><strong id="metric-growth">0</strong><small>近 90 天</small></article>
+        <article><span>需风险复核</span><strong id="metric-risk">0</strong><small>关键词提示</small></article>
+      </section>
+
+      <section class="panel controls-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">SCREENING RESULTS</p>
+            <h2>候选市场</h2>
+          </div>
+          <button id="download-button" class="primary-button" type="button">下载 Top 30 补录模板</button>
+        </div>
+        <div class="controls">
+          <label class="search-control">
+            <span class="sr-only">搜索细分市场</span>
+            <input id="search-input" type="search" placeholder="搜索细分市场或关键词">
+          </label>
+          <label>
+            <span>价格带</span>
+            <select id="price-filter">
+              <option value="all">全部价格</option>
+              <option value="target">$20–$50</option>
+              <option value="low">低于 $20</option>
+              <option value="high">高于 $50</option>
+            </select>
+          </label>
+          <label>
+            <span>风险复核</span>
+            <select id="risk-filter">
+              <option value="all">全部候选</option>
+              <option value="clear">无提示</option>
+              <option value="flagged">需复核</option>
+            </select>
+          </label>
+          <label>
+            <span>最低初筛分</span>
+            <select id="score-filter">
+              <option value="0">不限</option>
+              <option value="60">60+</option>
+              <option value="70">70+</option>
+              <option value="80">80+</option>
+            </select>
+          </label>
+        </div>
+        <div class="result-meta">
+          <span id="result-count">显示 0 个市场</span>
+          <span id="source-meta"></span>
+        </div>
+      </section>
+
+      <section class="table-shell" aria-label="候选市场排名表">
+        <table>
+          <thead>
+            <tr>
+              <th>排名</th>
+              <th>细分市场</th>
+              <th>初筛分</th>
+              <th>需求分</th>
+              <th>均价</th>
+              <th>90 天增长</th>
+              <th>退货率</th>
+              <th>风险复核</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+        <div id="empty-state" class="empty-state" hidden>没有符合当前筛选条件的市场。</div>
+      </section>
+
+      <section class="notice">
+        <strong>边界说明</strong>
+        <p>初筛分只用于同批市场的相对排序，不包含成本、FBA、广告、合规与侵权结论。下载补录模板并填入真实数据后，才能进入利润和采购决策。</p>
+      </section>
+    </div>
+  </main>
+  <script src="/app.js" defer></script>
+</body>
+</html>
