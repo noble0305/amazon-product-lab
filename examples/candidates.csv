@@ -1,0 +1,4 @@
+opportunity_id,marketplace,niche,sale_price,landed_cost,fba_fee,referral_fee_rate,storage_cost,return_rate,return_loss_rate,conversion_rate,cpc,demand_score,competition_score,differentiation_score,supply_chain_score,operability_score,compliance_risk,ip_risk,hazmat,seasonal
+US-001,US,drawer organizer,39.99,7.00,5.50,0.15,0.50,0.05,0.50,0.12,0.45,82,75,80,85,70,low,low,false,false
+US-002,US,travel cable pouch,24.99,5.20,4.80,0.15,0.35,0.08,0.60,0.09,0.95,76,68,74,80,65,low,low,false,false
+US-003,US,rechargeable hand warmer,34.99,11.00,5.80,0.15,0.60,0.10,0.70,0.10,0.85,88,62,78,60,72,high,medium,true,true
