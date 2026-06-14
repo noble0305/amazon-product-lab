@@ -21,6 +21,7 @@ class WebAnalysisTests(unittest.TestCase):
         self.assertIn("renderAsinTable", javascript)
         self.assertIn("data_completeness", javascript)
         self.assertIn("https://www.amazon.com/dp/", javascript)
+        self.assertIn('class="product-title-link"', javascript)
         self.assertIn("ASIN Explorer", html)
         self.assertIn("产品机会分析", html)
 

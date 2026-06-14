@@ -206,7 +206,7 @@ function renderAsinTable() {
     const asinUrl = `https://www.amazon.com/dp/${encodeURIComponent(product.asin)}`;
     row.innerHTML = `
       <td class="rank">${product.rank}</td>
-      <td class="product-cell"><strong>${escapeHtml(product.title)}</strong><div class="product-meta"><a class="asin-link" href="${asinUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(product.asin)}</a><span>${escapeHtml(product.brand || "品牌未知")}</span><span>${escapeHtml(product.category || "类目未知")}</span></div></td>
+      <td class="product-cell"><strong><a class="product-title-link" href="${asinUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(product.title)}</a></strong><div class="product-meta"><a class="asin-link" href="${asinUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(product.asin)}</a><span>${escapeHtml(product.brand || "品牌未知")}</span><span>${escapeHtml(product.category || "类目未知")}</span></div></td>
       <td class="score number">${product.opportunity_score.toFixed(2)}</td>
       <td class="number">${product.data_completeness.toFixed(0)}%</td>
       <td class="number">${formatOptional(product.search_clicks_360d)}</td>
