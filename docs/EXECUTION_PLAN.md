@@ -43,6 +43,9 @@
 
 市场分数和 ASIN 分数都不直接触发采购；只有产品方案通过利润红线和人工审核后才能进入打样。
 
+从对标 ASIN 到采购、Listing、图片和上架的完整流程见
+[`PRODUCT_CLOSED_LOOP.md`](PRODUCT_CLOSED_LOOP.md)。
+
 ## Agent 工作流
 
 ```mermaid
