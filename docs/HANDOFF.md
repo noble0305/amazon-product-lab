@@ -29,6 +29,11 @@
 - 合规、侵权、危险品和低利润红线
 - `sample`、`watch`、`reject` 决策分层
 - JSON、Markdown 与 CSV 补录输出
+- SQLite 本地持久化，刷新后恢复最近分析和产品方案
+- 从对标 ASIN 创建产品方案并保存竞品快照
+- 供应商报价、三情景利润快照、15% 利润红线和人工批准
+- Listing 事实依据、图片授权确认和 JSON 上架交接包
+- 实际销售结果回填、实际贡献利润和预测偏差
 
 主要代码：
 
@@ -37,6 +42,8 @@
 - `amazon_product_lab/opportunity_import.py`：细分市场原始导入与评分
 - `amazon_product_lab/asin_import.py`：ASIN 原始导入、缺失值与产品机会评分
 - `amazon_product_lab/web.py`：本地 Web 服务和上传接口
+- `amazon_product_lab/storage.py`：SQLite 数据与决策历史
+- `amazon_product_lab/workflow.py`：利润、状态闸门、上架包和结果计算
 - `amazon_product_lab/reporting.py`：Markdown 报告
 - `amazon_product_lab/cli.py`：命令行入口
 - `examples/candidates.csv`：输入模板
@@ -53,11 +60,11 @@
 
 ## 下一步优先级
 
-1. 从 ASIN 产品机会榜中选择 10 至 20 个参考商品，形成 3 至 5 个产品方案。
-2. 为产品方案补录供应商报价、尺寸重量、FBA、CPC、转化率和风险数据。
-3. 将产品方案接入现有三情景利润模型和 15% 利润红线。
-4. 增加人工通过、拒绝、拒绝理由和询价/打样状态。
-5. 用 3 个历史商品盲测利润与评分结果。
+1. 用当前界面建立 3 至 5 个真实产品方案并录入真实报价。
+2. 增加样品检查、采购批次和正式合规文件管理。
+3. 增加图片素材文件上传、版本和处理记录；当前只保存路径与授权确认。
+4. 用 3 个历史商品盲测利润与评分结果。
+5. 上架 2 至 3 款后持续回填结果，校准成本、CPC 和转化率假设。
 6. 之后再实现评论和退货原因聚类，不提前开发自动上架。
 
 完整产品方案状态和功能规划见 `docs/PRODUCT_CLOSED_LOOP.md`。
@@ -66,6 +73,6 @@
 
 可以直接说：
 
-> 阅读 AGENTS.md、docs/HANDOFF.md 和 docs/ASIN_ANALYSIS.md。继续实现产品方案成本录入和利润评估。
+> 阅读 AGENTS.md、docs/HANDOFF.md 和 docs/CLOSED_LOOP_MVP_SPEC.md。继续实现样品检查和采购批次管理。
 
-已有真实市场和 ASIN 导出文件。下一步不要继续调整初筛权重，先建立产品方案并补充真实成本。
+已有真实市场和 ASIN 导出文件。下一步不要继续调整初筛权重，先用真实报价和上架结果验证闭环。

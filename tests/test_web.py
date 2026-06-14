@@ -24,6 +24,9 @@ class WebAnalysisTests(unittest.TestCase):
         self.assertIn('class="product-title-link"', javascript)
         self.assertIn("ASIN Explorer", html)
         self.assertIn("产品机会分析", html)
+        self.assertIn("产品方案闭环", html)
+        self.assertIn("/api/analysis/latest", javascript)
+        self.assertIn("createLaunchPackage", javascript)
 
     def test_analyzes_uploaded_amazon_export_and_returns_download(self):
         payload = self._export_bytes()

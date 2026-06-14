@@ -46,6 +46,9 @@
 从对标 ASIN 到采购、Listing、图片和上架的完整流程见
 [`PRODUCT_CLOSED_LOOP.md`](PRODUCT_CLOSED_LOOP.md)。
 
+当前已交付闭环 MVP：分析与方案持久化、报价、利润闸门、Listing 草稿、
+图片授权确认、上架交接包和销售结果回填。样品、采购批次、素材文件处理仍为下一阶段。
+
 ## Agent 工作流
 
 ```mermaid

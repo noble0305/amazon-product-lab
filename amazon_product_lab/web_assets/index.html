@@ -15,10 +15,15 @@
         <span>美国站商机初筛工作台</span>
       </div>
     </div>
+    <nav class="app-nav" aria-label="工作台导航">
+      <button class="nav-button active" data-view="analysis" type="button">机会分析</button>
+      <button class="nav-button" data-view="concepts" type="button">产品方案</button>
+    </nav>
     <div class="local-badge"><span></span>数据仅在本机处理</div>
   </header>
 
   <main>
+    <div id="analysis-view">
     <section class="intro" aria-labelledby="page-title">
       <div>
         <p class="eyebrow">OPPORTUNITY EXPLORER</p>
@@ -61,7 +66,10 @@
             <p class="eyebrow">SCREENING RESULTS</p>
             <h2 id="results-title">候选市场</h2>
           </div>
-          <button id="download-button" class="primary-button" type="button">下载 Top 30 补录模板</button>
+          <div class="heading-actions">
+            <button id="create-concept-button" class="secondary-button" type="button" hidden>从已选 ASIN 创建方案</button>
+            <button id="download-button" class="primary-button" type="button">下载 Top 30 补录模板</button>
+          </div>
         </div>
         <div class="controls">
           <label class="search-control">
@@ -134,7 +142,145 @@
         <p>初筛分只用于同批市场的相对排序，不包含成本、FBA、广告、合规与侵权结论。下载补录模板并填入真实数据后，才能进入利润和采购决策。</p>
       </section>
     </div>
+    </div>
+
+    <section id="concepts-view" hidden aria-labelledby="concepts-title">
+      <div class="workspace-header">
+        <div>
+          <p class="eyebrow">PRODUCT DEVELOPMENT</p>
+          <h1 id="concepts-title">产品方案闭环</h1>
+          <p class="lede">从对标 ASIN、供应商报价和利润闸门，到 Listing、上架交接与真实结果复盘。</p>
+        </div>
+        <button id="new-concept-button" class="primary-button" type="button">新建空白方案</button>
+      </div>
+      <div class="concept-layout">
+        <aside class="concept-sidebar">
+          <div class="sidebar-heading"><strong>产品方案</strong><span id="concept-count">0</span></div>
+          <div id="concept-list" class="concept-list"></div>
+        </aside>
+        <div id="concept-empty" class="concept-empty">
+          <strong>尚未选择产品方案</strong>
+          <p>从 ASIN 机会榜选择对标商品，或新建空白方案。</p>
+        </div>
+        <article id="concept-detail" class="concept-detail" hidden>
+          <header class="concept-detail-header">
+            <div><span id="concept-status" class="status-chip">idea</span><h2 id="concept-name"></h2></div>
+            <button id="refresh-concept-button" class="secondary-button" type="button">刷新</button>
+          </header>
+          <section class="workflow-progress" id="workflow-progress"></section>
+
+          <details open>
+            <summary>1. 产品定义与风险</summary>
+            <form id="concept-form" class="form-grid">
+              <label>方案名称<input name="name" required></label>
+              <label>目标售价 (USD)<input name="target_price" type="number" min="0" step="0.01" required></label>
+              <label class="wide">目标用户<input name="target_customer" required></label>
+              <label class="wide">核心痛点<textarea name="pain_point" required></textarea></label>
+              <label class="wide">差异化假设<textarea name="differentiation" required></textarea></label>
+              <label>SKU<input name="sku"></label>
+              <label>合规风险<select name="compliance_risk"><option>unknown</option><option>low</option><option>medium</option><option>high</option></select></label>
+              <label>侵权风险<select name="ip_risk"><option>unknown</option><option>low</option><option>medium</option><option>high</option></select></label>
+              <label class="checkbox-label"><input name="hazmat" type="checkbox"> 危险品</label>
+              <label class="wide">备注<textarea name="notes"></textarea></label>
+              <button class="primary-button" type="submit">保存产品定义</button>
+            </form>
+            <div id="benchmark-list" class="benchmark-list"></div>
+          </details>
+
+          <details>
+            <summary>2. 1688 供应商与报价</summary>
+            <form id="quote-form" class="form-grid compact">
+              <label>供应商名称<input name="supplier_name" required></label>
+              <label>1688 商品链接<input name="product_url" type="url"></label>
+              <label>采购单价<input name="unit_cost" type="number" min="0" step="0.01" required></label>
+              <label>国内运费/件<input name="domestic_shipping" type="number" min="0" step="0.01" value="0"></label>
+              <label>头程/件<input name="international_shipping" type="number" min="0" step="0.01" value="0"></label>
+              <label>关税/件<input name="tariff" type="number" min="0" step="0.01" value="0"></label>
+              <label>包装/件<input name="packaging" type="number" min="0" step="0.01" value="0"></label>
+              <label>MOQ<input name="moq" type="number" min="0" value="0"></label>
+              <label>交期（天）<input name="lead_time_days" type="number" min="0" value="0"></label>
+              <label class="wide">备注<textarea name="notes"></textarea></label>
+              <button class="primary-button" type="submit">保存报价</button>
+            </form>
+            <div id="quote-list" class="record-list"></div>
+          </details>
+
+          <details>
+            <summary>3. 利润核算与批准</summary>
+            <form id="profit-form" class="form-grid compact">
+              <label>售价<input name="sale_price" type="number" min="0" step="0.01" required></label>
+              <label>到岸成本<input name="landed_cost" type="number" min="0" step="0.01" required></label>
+              <label>FBA 费<input name="fba_fee" type="number" min="0" step="0.01" required></label>
+              <label>佣金率<input name="referral_fee_rate" type="number" min="0" max="1" step="0.01" value="0.15" required></label>
+              <label>仓储成本<input name="storage_cost" type="number" min="0" step="0.01" value="0" required></label>
+              <label>退货率<input name="return_rate" type="number" min="0" max="1" step="0.01" value="0.05" required></label>
+              <label>退货损失率<input name="return_loss_rate" type="number" min="0" max="1" step="0.01" value="0.5" required></label>
+              <label>转化率<input name="conversion_rate" type="number" min="0.001" max="1" step="0.01" value="0.1" required></label>
+              <label>CPC<input name="cpc" type="number" min="0" step="0.01" value="0.8" required></label>
+              <button class="primary-button" type="submit">计算并保存快照</button>
+            </form>
+            <div id="profit-result"></div>
+            <button id="approve-concept-button" class="primary-button" type="button">通过利润与风险审核</button>
+          </details>
+
+          <details>
+            <summary>4. Listing 与事实依据</summary>
+            <form id="listing-form" class="form-grid">
+              <label class="wide">标题<input name="title" required></label>
+              <label class="wide">五点描述（每行一点）<textarea name="bullet_points" rows="6" required></textarea></label>
+              <label class="wide">商品描述<textarea name="description" rows="5" required></textarea></label>
+              <label class="wide">后台搜索词<input name="search_terms" required></label>
+              <label class="wide">事实依据（规格、样品测试、供应商确认）<textarea name="evidence" rows="4" required></textarea></label>
+              <label class="wide">最终图片路径（每行一个，主图放第一行）<textarea name="image_paths" rows="4" required></textarea></label>
+              <label class="checkbox-label wide"><input name="image_rights_confirmed" type="checkbox"> 我已确认图片授权且图片与实物一致</label>
+              <label class="checkbox-label wide"><input name="approved" type="checkbox"> 我已人工核对事实、禁限词与知识产权</label>
+              <button class="primary-button" type="submit">保存 Listing 版本</button>
+            </form>
+          </details>
+
+          <details>
+            <summary>5. 上架交接包</summary>
+            <form id="launch-form" class="inline-form">
+              <label>首批库存<input name="inventory_quantity" type="number" min="1" required></label>
+              <button class="primary-button" type="submit">生成并下载交接包</button>
+            </form>
+            <button id="mark-launched-button" class="secondary-button launch-status-button" type="button">已在 Seller Central 人工上架</button>
+            <p class="helper">交接包不会自动发布到 Seller Central，仍需人工核对并上架。</p>
+          </details>
+
+          <details>
+            <summary>6. 上线结果复盘</summary>
+            <form id="result-form" class="form-grid compact">
+              <label>销量<input name="units_sold" type="number" min="0" required></label>
+              <label>销售额<input name="revenue" type="number" min="0" step="0.01" required></label>
+              <label>产品成本<input name="product_cost" type="number" min="0" step="0.01" required></label>
+              <label>FBA 费用<input name="fba_fees" type="number" min="0" step="0.01" required></label>
+              <label>销售佣金<input name="referral_fees" type="number" min="0" step="0.01" required></label>
+              <label>仓储成本<input name="storage_cost" type="number" min="0" step="0.01" required></label>
+              <label>广告花费<input name="ad_spend" type="number" min="0" step="0.01" required></label>
+              <label>退货损失<input name="return_loss" type="number" min="0" step="0.01" required></label>
+              <label>其他成本<input name="other_cost" type="number" min="0" step="0.01" value="0" required></label>
+              <button class="primary-button" type="submit">保存真实结果</button>
+            </form>
+            <div id="actual-result"></div>
+          </details>
+        </article>
+      </div>
+    </section>
   </main>
+
+  <dialog id="concept-dialog">
+    <form id="create-concept-form" method="dialog" class="dialog-form">
+      <header><h2>创建产品方案</h2><button id="close-concept-dialog" type="button" aria-label="关闭">×</button></header>
+      <label>方案名称<input name="name" required></label>
+      <label>目标售价 (USD)<input name="target_price" type="number" min="0" step="0.01" required></label>
+      <label>目标用户<input name="target_customer" required></label>
+      <label>核心痛点<textarea name="pain_point" required></textarea></label>
+      <label>差异化假设<textarea name="differentiation" required></textarea></label>
+      <p id="selected-benchmark-count" class="helper"></p>
+      <button class="primary-button" type="submit">创建方案</button>
+    </form>
+  </dialog>
   <script src="/app.js" defer></script>
 </body>
 </html>
