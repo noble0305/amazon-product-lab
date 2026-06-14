@@ -12,6 +12,23 @@
 
 当前不连接亚马逊后台，也不执行采购、上架、调价或广告操作。
 
+## 商机探测器原始导出
+
+可直接输入亚马逊美国站商机探测器下载的中文 CSV：
+
+```bash
+python3 -m amazon_product_lab "/Users/wangzhi/Downloads/细分市场搜索结果_2026_6_14.csv" --output-dir output
+```
+
+程序会自动识别原始导出并生成：
+
+- `output/market_report.md`：需求侧 Top 50 初筛报告
+- `output/market_report.json`：全部市场、原始指标、分项得分和来源哈希
+- `output/candidate_enrichment.csv`：Top 30 待补充成本、广告、供应链和风险数据的模板
+
+需求侧初筛不包含利润、合规和侵权结论，不能直接作为打样或采购决定。补齐
+`candidate_enrichment.csv` 的空字段后，再将它作为输入运行，生成正式利润与风险报告。
+
 ## 运行
 
 需要 Python 3.10 以上，无第三方依赖。
