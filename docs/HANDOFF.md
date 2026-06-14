@@ -19,17 +19,24 @@
 ## 已完成实现
 
 - CSV 输入与字段校验
+- 商机探测器中文原始导出自动识别与市场初筛
+- ASIN Explorer 中文原始导出自动识别与产品机会评分
+- 数据完整度、缺失值规则、来源日期和文件哈希
+- 本地 Web 工作台、筛选、排序、Amazon 关键词和 ASIN 跳转
+- 市场补录模板与产品成本补录模板
 - 乐观、基准、悲观三种利润情景
 - 六维 100 分评分模型
 - 合规、侵权、危险品和低利润红线
 - `sample`、`watch`、`reject` 决策分层
-- JSON 与 Markdown 排名报告
-- 9 个单元测试，当前全部通过
+- JSON、Markdown 与 CSV 补录输出
 
 主要代码：
 
 - `amazon_product_lab/evaluation.py`：利润、评分、红线
 - `amazon_product_lab/io.py`：CSV 读取和校验
+- `amazon_product_lab/opportunity_import.py`：细分市场原始导入与评分
+- `amazon_product_lab/asin_import.py`：ASIN 原始导入、缺失值与产品机会评分
+- `amazon_product_lab/web.py`：本地 Web 服务和上传接口
 - `amazon_product_lab/reporting.py`：Markdown 报告
 - `amazon_product_lab/cli.py`：命令行入口
 - `examples/candidates.csv`：输入模板
@@ -46,18 +53,17 @@
 
 ## 下一步优先级
 
-1. 获取一份真实的美国站商机探测器导出文件。
-2. 建立“亚马逊原始字段 -> 当前标准字段”的导入映射。
-3. 增加数据来源、采集日期和原始文件哈希，保证可追溯。
-4. 用 3 个历史商品盲测利润与评分结果。
-5. 导入 20 至 30 个细分市场，完成第一轮 Top 10 候选评审。
+1. 从 ASIN 产品机会榜中选择 10 至 20 个参考商品，形成 3 至 5 个产品方案。
+2. 为产品方案补录供应商报价、尺寸重量、FBA、CPC、转化率和风险数据。
+3. 将产品方案接入现有三情景利润模型和 15% 利润红线。
+4. 增加人工通过、拒绝、拒绝理由和询价/打样状态。
+5. 用 3 个历史商品盲测利润与评分结果。
 6. 之后再实现评论和退货原因聚类，不提前开发自动上架。
 
 ## 新会话建议开场
 
 可以直接说：
 
-> 阅读 AGENTS.md 和 docs/HANDOFF.md。我们继续实现亚马逊选品实验室。先检查现有代码，然后处理真实商机探测器导出文件的字段映射与导入。
+> 阅读 AGENTS.md、docs/HANDOFF.md 和 docs/ASIN_ANALYSIS.md。继续实现产品方案成本录入和利润评估。
 
-如果尚未取得真实导出文件，则先完善字段字典和历史商品回测模板。
-
+已有真实市场和 ASIN 导出文件。下一步不要继续调整初筛权重，先建立产品方案并补充真实成本。

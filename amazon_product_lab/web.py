@@ -9,6 +9,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
+from .asin_import import analyze_asin_export, is_asin_export, write_asin_outputs
 from .opportunity_import import analyze_opportunity_export, write_opportunity_outputs
 
 
@@ -32,12 +33,23 @@ def analyze_upload(filename: str, payload: bytes) -> dict[str, object]:
         source = root / safe_name
         output = root / "output"
         source.write_bytes(payload)
-        analysis = analyze_opportunity_export(source)
-        write_opportunity_outputs(analysis, output)
-        enrichment_csv = (output / "candidate_enrichment.csv").read_text(
-            encoding="utf-8-sig"
-        )
-    return {"analysis": analysis, "enrichment_csv": enrichment_csv}
+        if is_asin_export(source):
+            analysis = analyze_asin_export(source)
+            write_asin_outputs(analysis, output)
+            download_name = "product_enrichment.csv"
+            dataset_type = "asin"
+        else:
+            analysis = analyze_opportunity_export(source)
+            write_opportunity_outputs(analysis, output)
+            download_name = "candidate_enrichment.csv"
+            dataset_type = "market"
+        enrichment_csv = (output / download_name).read_text(encoding="utf-8-sig")
+    return {
+        "dataset_type": dataset_type,
+        "analysis": analysis,
+        "enrichment_csv": enrichment_csv,
+        "download_name": download_name,
+    }
 
 
 class ProductLabHandler(BaseHTTPRequestHandler):

@@ -82,7 +82,7 @@ h1 { max-width: 760px; margin: 0; font-family: Georgia, "Songti SC", serif; font
 .panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 h2 { margin: 0; font: 500 28px/1.2 Georgia, "Songti SC", serif; }
 .primary-button { display: block; font-weight: 700; text-align: center; }
-.controls { margin-top: 22px; display: grid; grid-template-columns: minmax(260px, 1fr) repeat(3, 180px); gap: 12px; }
+.controls { margin-top: 22px; display: grid; grid-template-columns: minmax(240px, 1fr) repeat(4, 155px); gap: 12px; }
 .controls label { display: grid; gap: 7px; color: var(--muted); font-size: 12px; }
 input, select { width: 100%; min-height: 42px; padding: 0 12px; color: var(--ink); background: white; border: 1px solid var(--line); border-radius: 6px; outline: none; }
 input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(20,92,62,.12); }
@@ -90,7 +90,7 @@ input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rg
 .result-meta { margin-top: 18px; padding-top: 15px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; }
 
 .table-shell { overflow-x: auto; border: 1px solid var(--line); border-top: 0; border-radius: 0 0 var(--radius) var(--radius); background: var(--surface); }
-table { width: 100%; border-collapse: collapse; min-width: 950px; }
+table { width: 100%; border-collapse: collapse; min-width: 1080px; }
 th { padding: 13px 16px; text-align: left; color: var(--muted); background: #eeeee8; border-bottom: 1px solid var(--line); font-size: 11px; font-weight: 700; letter-spacing: .04em; }
 .sort-button { width: 100%; padding: 0; display: flex; align-items: center; gap: 6px; border: 0; color: inherit; background: transparent; font: inherit; letter-spacing: inherit; text-align: left; }
 .sort-button span { color: #9aa39d; font-size: 12px; }
@@ -105,6 +105,12 @@ tbody tr:hover { background: #f9faf6; }
 tbody tr:last-child td { border-bottom: 0; }
 .rank { color: var(--muted); font-variant-numeric: tabular-nums; }
 .niche-cell strong { display: block; font-size: 14px; }
+.product-cell { min-width: 320px; }
+.product-cell strong { display: block; max-width: 420px; line-height: 1.35; }
+.product-meta { display: flex; gap: 7px; margin-top: 5px; color: var(--muted); font-size: 11px; }
+.asin-link { color: var(--green); font-weight: 700; text-decoration: none; }
+.asin-link:hover, .asin-link:focus-visible { text-decoration: underline; }
+.missing { color: #9aa39d; }
 .keyword-links { display: flex; max-width: 400px; margin-top: 5px; gap: 5px; white-space: nowrap; overflow: hidden; }
 .keyword-link { color: var(--muted); font-size: 11px; text-decoration: none; border-bottom: 1px solid #b8c1bb; }
 .keyword-link:hover, .keyword-link:focus-visible { color: var(--green); border-color: var(--green); }

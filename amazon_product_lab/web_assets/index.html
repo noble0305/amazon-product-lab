@@ -45,9 +45,9 @@
 
     <div id="workspace" hidden>
       <section class="summary" aria-label="分析概览">
-        <article><span>市场总数</span><strong id="metric-total">0</strong><small>本次导出</small></article>
+        <article><span id="metric-total-label">市场总数</span><strong id="metric-total">0</strong><small>本次导出</small></article>
         <article><span>目标价格带</span><strong id="metric-price">0</strong><small>$20–$50</small></article>
-        <article><span>正向增长</span><strong id="metric-growth">0</strong><small>近 90 天</small></article>
+        <article><span id="metric-demand-label">正向增长</span><strong id="metric-growth">0</strong><small id="metric-demand-note">近 90 天</small></article>
         <article><span>需风险复核</span><strong id="metric-risk">0</strong><small>关键词提示</small></article>
       </section>
 
@@ -55,7 +55,7 @@
         <div class="panel-heading">
           <div>
             <p class="eyebrow">SCREENING RESULTS</p>
-            <h2>候选市场</h2>
+            <h2 id="results-title">候选市场</h2>
           </div>
           <button id="download-button" class="primary-button" type="button">下载 Top 30 补录模板</button>
         </div>
@@ -90,6 +90,15 @@
               <option value="80">80+</option>
             </select>
           </label>
+          <label>
+            <span>数据完整度</span>
+            <select id="completeness-filter">
+              <option value="0">不限</option>
+              <option value="50">50%+</option>
+              <option value="70">70%+</option>
+              <option value="90">90%+</option>
+            </select>
+          </label>
         </div>
         <div class="result-meta">
           <span id="result-count">显示 0 个市场</span>
@@ -99,7 +108,7 @@
 
       <section class="table-shell" aria-label="候选市场排名表">
         <table>
-          <thead>
+          <thead id="results-head">
             <tr>
               <th aria-sort="none"><button class="sort-button" data-sort="rank" type="button">排名<span aria-hidden="true">↕</span></button></th>
               <th aria-sort="none"><button class="sort-button" data-sort="niche" type="button">细分市场<span aria-hidden="true">↕</span></button></th>

@@ -21,7 +21,26 @@ python3 -m amazon_product_lab.web
 ```
 
 浏览器会打开 `http://127.0.0.1:8765`。将商机探测器 CSV 拖入页面，即可查看
-需求侧概览、筛选候选、风险复核提示，并下载 Top 30 补录模板。数据仅在本机处理。
+需求侧概览、筛选候选、风险复核提示，并下载 Top 30 补录模板。页面也会自动识别
+ASIN Explorer CSV，切换到产品机会榜。数据仅在本机处理。
+
+## ASIN Explorer 原始导出
+
+可直接运行 ASIN Explorer 中文 CSV：
+
+```bash
+python3 -m amazon_product_lab "/Users/wangzhi/Downloads/ASIN Explorer 搜索结果_2026_6_14.csv" --output-dir output/asin
+```
+
+输出：
+
+- `output/asin/asin_report.md`：Top 50 ASIN 产品机会报告
+- `output/asin/asin_report.json`：全部 ASIN、分项得分、完整度和来源信息
+- `output/asin/product_enrichment.csv`：Top 30 成本与物流补录模板
+
+产品机会分由需求证据 35%、竞争可进入性 30%、差异化空间 20% 和价格空间 15%
+组成，并按数据完整度降低置信度。详细口径见 [`docs/ASIN_ANALYSIS.md`](docs/ASIN_ANALYSIS.md)。
+该评分不包含真实成本，因此不代表利润或采购结论。
 
 ## 商机探测器原始导出
 

@@ -18,6 +18,9 @@ class WebAnalysisTests(unittest.TestCase):
         self.assertIn("https://www.amazon.com/s?k=", javascript)
         self.assertIn('target="_blank"', javascript)
         self.assertIn('rel="noopener noreferrer"', javascript)
+        self.assertIn("renderAsinTable", javascript)
+        self.assertIn("data_completeness", javascript)
+        self.assertIn("https://www.amazon.com/dp/", javascript)
 
     def test_analyzes_uploaded_amazon_export_and_returns_download(self):
         payload = self._export_bytes()
@@ -30,6 +33,28 @@ class WebAnalysisTests(unittest.TestCase):
         rows = list(csv.DictReader(io.StringIO(response["enrichment_csv"])))
         self.assertEqual(rows[0]["niche"], "drawer organizer")
         self.assertEqual(rows[0]["landed_cost"], "")
+
+    def test_analyzes_uploaded_asin_export(self):
+        fields = [
+            "商品名称", "ASIN", "品牌", "类别", "发布日期",
+            "搜索点击量（过去 360 天）", "平均售价（过去 90 天）(USD)",
+            "平均售价（过去 360 天）(USD)", "总评价数", "平均评分",
+            "平均畅销排名 (BSR)", "销售伙伴的平均数量",
+        ]
+        output = io.StringIO()
+        output.write("按 ASIN 搜索: \n\n")
+        writer = csv.writer(output)
+        writer.writerow(fields)
+        writer.writerow(["Drawer organizer", "B000000001", "Brand", "Home/Storage", "2025-01-01", "5000", "29.99", "30.99", "80", "4.1", "300", "1"])
+
+        response = analyze_upload(
+            "ASIN Explorer 搜索结果_2026_6_14.csv",
+            output.getvalue().encode("utf-8-sig"),
+        )
+
+        self.assertEqual(response["dataset_type"], "asin")
+        self.assertEqual(response["analysis"]["products"][0]["asin"], "B000000001")
+        self.assertEqual(response["download_name"], "product_enrichment.csv")
 
     def test_rejects_empty_upload(self):
         with self.assertRaisesRegex(ValueError, "文件为空"):

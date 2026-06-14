@@ -30,6 +30,10 @@ class OpportunityImportTests(unittest.TestCase):
             risk_review_flags("dog multivitamin"),
             ["ingestible_review"],
         )
+        self.assertEqual(
+            risk_review_flags("puppy milk replacement"),
+            ["ingestible_review"],
+        )
         self.assertEqual(risk_review_flags("decorative wall sticker"), [])
         self.assertEqual(risk_review_flags("drawer organizer"), [])
 

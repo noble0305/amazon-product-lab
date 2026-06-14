@@ -4,6 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
+from .asin_import import analyze_asin_export, is_asin_export, write_asin_outputs
 from .evaluation import evaluate_candidate
 from .io import load_candidates
 from .opportunity_import import (
@@ -19,6 +20,15 @@ def main() -> None:
     parser.add_argument("input", type=Path, help="Input CSV file")
     parser.add_argument("--output-dir", type=Path, default=Path("output"))
     args = parser.parse_args()
+
+    if is_asin_export(args.input):
+        analysis = analyze_asin_export(args.input)
+        write_asin_outputs(analysis, args.output_dir)
+        print(
+            f"Analyzed {len(analysis['products'])} ASIN products. "
+            f"Screening reports saved to {args.output_dir}"
+        )
+        return
 
     if is_opportunity_export(args.input):
         analysis = analyze_opportunity_export(args.input)

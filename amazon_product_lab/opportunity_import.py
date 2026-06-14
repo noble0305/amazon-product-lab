@@ -106,6 +106,7 @@ def risk_review_flags(niche: str) -> list[str]:
                 "treat",
                 "chew",
                 "churro",
+                "milk",
             ),
         ),
         ("privacy_review", ("hidden camera", "spy camera", "surveillance")),
