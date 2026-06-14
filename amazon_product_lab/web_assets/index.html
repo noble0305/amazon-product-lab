@@ -23,7 +23,7 @@
       <div>
         <p class="eyebrow">OPPORTUNITY EXPLORER</p>
         <h1 id="page-title">从后台导出，到可复盘的候选清单</h1>
-        <p class="lede">上传商机探测器 CSV，先完成需求侧排序与风险复核提示。利润、合规和采购结论仍需补齐真实数据。</p>
+        <p class="lede">支持细分市场和 ASIN Explorer 两种后台导出，自动识别文件并切换分析视图。利润、合规和采购结论仍需补齐真实数据。</p>
       </div>
       <button id="choose-file-button" class="upload-button" type="button">
         <span>选择 CSV 文件</span>
@@ -35,8 +35,12 @@
     <section id="drop-zone" class="drop-zone" aria-label="CSV 文件上传区">
       <div class="drop-icon" aria-hidden="true">↑</div>
       <div>
-        <strong id="drop-title">拖入商机探测器导出的 CSV</strong>
-        <p id="drop-hint">支持中文表头，最大 25 MB。文件不会离开你的电脑。</p>
+        <strong id="drop-title">拖入亚马逊商机探测器 CSV</strong>
+        <p id="drop-hint">支持中文表头，自动识别文件类型，最大 25 MB。</p>
+        <div class="file-types" aria-label="支持的文件类型">
+          <span><b>细分市场搜索结果</b> 市场需求分析</span>
+          <span><b>ASIN Explorer 搜索结果</b> 产品机会分析</span>
+        </div>
       </div>
       <span class="text-note">原始数据不会上传到网络</span>
     </section>

@@ -21,6 +21,8 @@ class WebAnalysisTests(unittest.TestCase):
         self.assertIn("renderAsinTable", javascript)
         self.assertIn("data_completeness", javascript)
         self.assertIn("https://www.amazon.com/dp/", javascript)
+        self.assertIn("ASIN Explorer", html)
+        self.assertIn("产品机会分析", html)
 
     def test_analyzes_uploaded_amazon_export_and_returns_download(self):
         payload = self._export_bytes()
