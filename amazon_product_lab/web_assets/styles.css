@@ -92,12 +92,23 @@ input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rg
 .table-shell { overflow-x: auto; border: 1px solid var(--line); border-top: 0; border-radius: 0 0 var(--radius) var(--radius); background: var(--surface); }
 table { width: 100%; border-collapse: collapse; min-width: 950px; }
 th { padding: 13px 16px; text-align: left; color: var(--muted); background: #eeeee8; border-bottom: 1px solid var(--line); font-size: 11px; font-weight: 700; letter-spacing: .04em; }
+.sort-button { width: 100%; padding: 0; display: flex; align-items: center; gap: 6px; border: 0; color: inherit; background: transparent; font: inherit; letter-spacing: inherit; text-align: left; }
+.sort-button span { color: #9aa39d; font-size: 12px; }
+.sort-button:hover, .sort-button:focus-visible { color: var(--green); }
+.sort-button:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; border-radius: 2px; }
+th[aria-sort="ascending"] .sort-button span::before { content: "↑"; }
+th[aria-sort="descending"] .sort-button span::before { content: "↓"; }
+th[aria-sort]:not([aria-sort="none"]) .sort-button span { font-size: 0; color: var(--green); }
+th[aria-sort]:not([aria-sort="none"]) .sort-button span::before { font-size: 12px; }
 td { padding: 15px 16px; border-bottom: 1px solid #eceeea; vertical-align: middle; }
 tbody tr:hover { background: #f9faf6; }
 tbody tr:last-child td { border-bottom: 0; }
 .rank { color: var(--muted); font-variant-numeric: tabular-nums; }
 .niche-cell strong { display: block; font-size: 14px; }
-.niche-cell small { display: block; max-width: 360px; margin-top: 4px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.keyword-links { display: flex; max-width: 400px; margin-top: 5px; gap: 5px; white-space: nowrap; overflow: hidden; }
+.keyword-link { color: var(--muted); font-size: 11px; text-decoration: none; border-bottom: 1px solid #b8c1bb; }
+.keyword-link:hover, .keyword-link:focus-visible { color: var(--green); border-color: var(--green); }
+.keyword-separator { color: #b8c1bb; }
 .score { font-weight: 800; color: var(--green); }
 .number { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .growth.negative { color: var(--red); }

@@ -1,4 +1,9 @@
-const state = { analysis: null, enrichmentCsv: "", filtered: [] };
+const state = {
+  analysis: null,
+  enrichmentCsv: "",
+  filtered: [],
+  sort: { key: "rank", direction: "ascending" },
+};
 const $ = (id) => document.getElementById(id);
 
 const fileInput = $("file-input");
@@ -30,6 +35,9 @@ dropZone.addEventListener("drop", (event) => {
 
 ["search-input", "price-filter", "risk-filter", "score-filter"].forEach((id) => {
   $(id).addEventListener("input", applyFilters);
+});
+document.querySelectorAll(".sort-button").forEach((button) => {
+  button.addEventListener("click", () => sortFilter(button.dataset.sort));
 });
 
 $("download-button").addEventListener("click", () => {
@@ -100,7 +108,39 @@ function applyFilters() {
     const riskMatch = risk === "all" || (risk === "flagged" && flagged) || (risk === "clear" && !flagged);
     return haystack.includes(query) && priceMatch && riskMatch && market.screening_score >= minScore;
   });
+  sortMarkets();
   renderTable();
+}
+
+function sortFilter(key) {
+  if (state.sort.key === key) {
+    state.sort.direction = state.sort.direction === "ascending" ? "descending" : "ascending";
+  } else {
+    state.sort.key = key;
+    state.sort.direction = key === "niche" || key === "rank" ? "ascending" : "descending";
+  }
+  sortMarkets();
+  renderTable();
+}
+
+function sortMarkets() {
+  const { key, direction } = state.sort;
+  const factor = direction === "ascending" ? 1 : -1;
+  state.filtered.sort((left, right) => {
+    const leftValue = sortableValue(left, key);
+    const rightValue = sortableValue(right, key);
+    if (typeof leftValue === "string") return leftValue.localeCompare(rightValue, "en") * factor;
+    return (leftValue - rightValue) * factor;
+  });
+  document.querySelectorAll("th[aria-sort]").forEach((header) => {
+    const active = header.querySelector(`[data-sort="${key}"]`);
+    header.setAttribute("aria-sort", active ? direction : "none");
+  });
+}
+
+function sortableValue(market, key) {
+  if (key === "manual_review_flags") return market.manual_review_flags.length;
+  return market[key];
 }
 
 function renderTable() {
@@ -110,7 +150,7 @@ function renderTable() {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td class="rank">${market.rank}</td>
-      <td class="niche-cell"><strong>${escapeHtml(market.niche)}</strong><small>${escapeHtml(market.keywords.filter(Boolean).join(" · "))}</small></td>
+      <td class="niche-cell"><strong>${escapeHtml(market.niche)}</strong>${renderKeywordLinks(market.keywords)}</td>
       <td class="score number">${market.screening_score.toFixed(2)}</td>
       <td class="number">${market.demand_score.toFixed(2)}</td>
       <td class="number">$${market.average_price.toFixed(2)}</td>
@@ -121,6 +161,14 @@ function renderTable() {
   });
   $("result-count").textContent = `显示 ${Math.min(state.filtered.length, 200)} / ${state.filtered.length} 个市场`;
   $("empty-state").hidden = state.filtered.length !== 0;
+}
+
+function renderKeywordLinks(keywords) {
+  const links = keywords.filter(Boolean).map((keyword) => {
+    const url = `https://www.amazon.com/s?k=${encodeURIComponent(keyword)}`;
+    return `<a class="keyword-link" href="${url}" target="_blank" rel="noopener noreferrer" title="在 Amazon 搜索 ${escapeHtml(keyword)}">${escapeHtml(keyword)}</a>`;
+  });
+  return `<div class="keyword-links">${links.join('<span class="keyword-separator" aria-hidden="true">·</span>')}</div>`;
 }
 
 function renderRisk(flags) {

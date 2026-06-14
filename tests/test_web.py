@@ -1,11 +1,24 @@
 import csv
 import io
 import unittest
+from pathlib import Path
 
 from amazon_product_lab.web import analyze_upload
 
 
 class WebAnalysisTests(unittest.TestCase):
+    def test_web_assets_expose_sort_controls_and_amazon_keyword_links(self):
+        asset_dir = Path(__file__).parents[1] / "amazon_product_lab" / "web_assets"
+        html = (asset_dir / "index.html").read_text(encoding="utf-8")
+        javascript = (asset_dir / "app.js").read_text(encoding="utf-8")
+
+        self.assertIn('data-sort="screening_score"', html)
+        self.assertIn('aria-sort="none"', html)
+        self.assertIn("sortFilter", javascript)
+        self.assertIn("https://www.amazon.com/s?k=", javascript)
+        self.assertIn('target="_blank"', javascript)
+        self.assertIn('rel="noopener noreferrer"', javascript)
+
     def test_analyzes_uploaded_amazon_export_and_returns_download(self):
         payload = self._export_bytes()
 
